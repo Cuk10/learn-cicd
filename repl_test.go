@@ -11,7 +11,7 @@ func TestGetAPIKey(t *testing.T) {
 	t.Run("Test case 1: No Authorization header", func(t *testing.T) {
 		headers := http.Header{}
 		key, err := auth.GetAPIKey(headers)
-		if err == auth.ErrNoAuthHeaderIncluded {
+		if err != auth.ErrNoAuthHeaderIncluded {
 			t.Errorf("Expected error %v, got %v", auth.ErrNoAuthHeaderIncluded, err)
 		}
 		if key != "" {
@@ -23,7 +23,7 @@ func TestGetAPIKey(t *testing.T) {
 		headers := http.Header{"Authorization": []string{""}}
 		key, err := auth.GetAPIKey(headers)
 		if err != auth.ErrNoAuthHeaderIncluded {
-			t.Errorf("Expected error %v, got %v", ErrNoAuthHeaderIncluded, err)
+			t.Errorf("Expected error %v, got %v", auth.ErrNoAuthHeaderIncluded, err)
 		}
 		if key != "" {
 			t.Errorf("Expected empty API key, got %s", key)
